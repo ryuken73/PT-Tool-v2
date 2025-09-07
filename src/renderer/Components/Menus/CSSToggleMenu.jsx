@@ -16,7 +16,6 @@ import PlayDisabledIcon from '@mui/icons-material/PlayDisabled';
 import MenuImageO from 'renderer/assets/menu_org.png';
 import useAssetState from 'renderer/hooks/useAssetState';
 import useMessageBox from 'renderer/hooks/useMessageBox';
-// import usePlayerEvent from 'renderer/hooks/usePlayerEvent';
 
 const Container = styled.div`
   position: absolute;
@@ -96,7 +95,6 @@ function CSSToggleMenuImage(props) {
   } = props;
   const { updateCurrentAssetSrc } = useAssetState();
   const { showMessageBox } = useMessageBox();
-  // const { isPlaying } = usePlayerEvent(assetId, srcId);
   const isToggleBtnRightSide =
     !isFirstImage &&
     (displayMode === 'overlaySplit' ||
