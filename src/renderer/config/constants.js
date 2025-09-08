@@ -13,8 +13,8 @@ const dev =  {
   NEWS_PREVIEW_SERVER_LOCAL_URL: 'http://127.0.0.1/html/news-preview',
   NEWS_PREVIEW_SERVER_REMOTE_URL: 'http://10.10.104.246/html/news-preview',
   LOGLESS_REDUX_ACTIONS: [
-    'playerSlice/setPlayerCurrentTime',
-    'playerSlice/setPlayerProgress',
+    // 'playerSlice/setPlayerCurrentTime',
+    // 'playerSlice/setPlayerProgress',
   ],
   POSITION: {
     toolContainer: {
