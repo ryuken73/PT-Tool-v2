@@ -96,6 +96,7 @@ const createWindow = async () => {
       throw new Error('"mainWindow" is not defined');
     }
     mainWindow.setFullScreen(true);
+    mainWindow.webContents.openDevTools();
     // mainWindow.setAlwaysOnTop(true, 'main-menu');
     if (process.env.START_MINIMIZED) {
       mainWindow.minimize();
@@ -119,7 +120,7 @@ const createWindow = async () => {
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
-  new AppUpdater();
+  // new AppUpdater();
 };
 
 /**
@@ -147,9 +148,10 @@ app
       // dock icon is clicked and there are no other windows open.
       if (mainWindow === null) createWindow();
     });
+    console.log('app ready:', __dirname)
     session
       .fromPartition('no-xframe')
-      .webRequest.onHeadersReceived({}, (d, c) => {
+      .webRequest.onHeadersReceived({urls: ['<all_urls>']}, (d, c) => {
         if (
           d.responseHeaders['x-frame-options'] ||
           d.responseHeaders['X-Frame-Options']

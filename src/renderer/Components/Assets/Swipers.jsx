@@ -9,7 +9,7 @@ import {
   EffectFlip,
   Navigation,
   Pagination,
-} from 'swiper';
+} from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';

@@ -26,7 +26,7 @@ function LeftSide() {
     // window.getAppVersion().then((version) => {
     //   setAppVersion(version);
     // });
-    windown.electron.ipcRenderer.sendMessage('getAppVersion')
+    window.electron.ipcRenderer.sendMessage('getAppVersion')
   }, []);
   const openDevTools = React.useCallback(() => {
     window.openDevTools();

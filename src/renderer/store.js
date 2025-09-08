@@ -4,7 +4,7 @@ import appReducer from 'renderer/appSlice';
 import configReducer from 'renderer/Components/Config/configSlice';
 import assetReducer from 'renderer/Components/Assets/assetSlice';
 import drawReducer from 'renderer/Components/Draw/drawSlice';
-import playerReducer from 'renderer/Components/Players/playerSlice';
+// import playerReducer from 'renderer/Components/Players/playerSlice';
 import dialogReducer from 'renderer/Components/Dialog/dialogSlice';
 import { createLocalStorageSaver } from './lib/saveStateMiddleware';
 import { loadState } from 'renderer/lib/localStorage';
@@ -26,7 +26,7 @@ export const store = configureStore({
     config: configReducer,
     asset: assetReducer,
     draw: drawReducer,
-    player: playerReducer,
+    // player: playerReducer,
     dialog: dialogReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger).concat(saver),

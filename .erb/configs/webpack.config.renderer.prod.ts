@@ -86,7 +86,18 @@ const configuration: webpack.Configuration = {
             },
           },
           'file-loader',
-        ],
+        ],      // Video
+      },
+      {
+        test: /\.(mp4|ogg|webm)$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          // 해당 파일에 적용할 로더의 이름
+          loader: 'file-loader',
+          options: {
+            name: 'assets/media/[name].[ext]?[hash]',
+          },
+        },
       },
     ],
   },
