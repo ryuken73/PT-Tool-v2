@@ -5,25 +5,15 @@ import  constants from 'renderer/config/constants';
 const { EASINGS } = constants;
 const MEDIA_EXTENSIONS = ['MP4', 'OGG', 'WEBM'];
 
-// const getVersion = async () => {
-//   return ipcRenderer.invoke('getVersion');
-// };
+const toggleWindowMaximize = async () => {
+  // return ipcRenderer.invoke('toggleWindowMaximize');
+  return window.electron.ipcRenderer.sendMessage('toggleWindowMaximize');
+};
 
-// const getIpAddresses = async () => {
-//   return ipcRenderer.invoke('getIpAddresses');
-// };
-
-// const captureScreen = async () => {
-//   return ipcRenderer.invoke('captureScreen');
-// };
-
-// const toggleWindowMaximize = async () => {
-//   return ipcRenderer.invoke('toggleWindowMaximize');
-// };
-
-// const quitApp = async () => {
-//   return ipcRenderer.invoke('quitApp');
-// };
+const quitApp = async () => {
+  // return ipcRenderer.invoke('quitApp');
+  return window.electron.ipcRenderer.sendMessage('quitApp');
+};
 
 const isHlsStream = (url) => {
   const hasMediaFileExt = MEDIA_EXTENSIONS.some((ext) =>
@@ -204,11 +194,8 @@ const easingStrings = {
 };
 
 module.exports = {
-  // getVersion,
-  // getIpAddresses,
-  // toggleWindowMaximize,
-  // captureScreen,
-  // quitApp,
+  toggleWindowMaximize,
+  quitApp,
   isHlsStream,
   debounce,
   debounceEx,

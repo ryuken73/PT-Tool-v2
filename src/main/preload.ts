@@ -8,6 +8,7 @@ export type Channels = 'ipc-example';
 const electronHandler = {
   ipcRenderer: {
     sendMessage(channel: Channels, ...args: unknown[]) {
+      console.log('received message', channel)
       ipcRenderer.send(channel, ...args);
     },
     on(channel: Channels, func: (...args: unknown[]) => void) {
@@ -34,6 +35,10 @@ const electronHandler = {
       const nics = os.networkInterfaces();
       const addrObjArray = Object.values(nics).flat();
       return Promise.resolve(addrObjArray.map((addrObj) => addrObj.address));
+    },
+    async getAppVersion(){
+      const version = await ipcRenderer.invoke('getAppVersion');
+      return version;
     }
 
   },

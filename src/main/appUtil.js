@@ -3,15 +3,13 @@ const { ipcMain, app, dialog, screen, BrowserWindow } = require('electron');
 const os = require('os');
 
 const setupIPCHandlers = () => {
-  ipcMain.handle('getVersion', () => {
-    return Promise.resolve(app.getVersion());
-  });
-  ipcMain.handle('getIpAddresses', () => {
+  ipcMain.on('getIpAddresses', () => {
     const nics = os.networkInterfaces();
     const addrObjArray = Object.values(nics).flat();
     return Promise.resolve(addrObjArray.map((addrObj) => addrObj.address));
   });
-  ipcMain.handle('toggleWindowMaximize', () => {
+  ipcMain.on('toggleWindowMaximize', () => {
+    console.log('toogle Window Maximize')
     const currentWindow = BrowserWindow.getFocusedWindow();
     if (currentWindow.fullScreen) {
       currentWindow.setFullScreen(false);
@@ -44,15 +42,14 @@ const setupIPCHandlers = () => {
       // height,
     });
   });
-  ipcMain.handle('openDevTools', () => {
+  ipcMain.on('openDevTools', () => {
     const currentWindow = BrowserWindow.getFocusedWindow();
     currentWindow.webContents.openDevTools();
   });
   ipcMain.handle('getAppVersion', () => {
-    console.log('get app version!!')
     return app.getVersion();
   });
-  ipcMain.handle('quitApp', () => {
+  ipcMain.on('quitApp', () => {
     return Promise.resolve(app.quit());
   });
 };

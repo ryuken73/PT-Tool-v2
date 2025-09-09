@@ -1,3 +1,5 @@
+/* eslint-disable promise/catch-or-return */
+/* eslint-disable promise/always-return */
 import React from 'react';
 import styled from 'styled-components';
 import DialogContent from '@mui/material/DialogContent';
@@ -26,10 +28,12 @@ function LeftSide() {
     // window.getAppVersion().then((version) => {
     //   setAppVersion(version);
     // });
-    window.electron.ipcRenderer.sendMessage('getAppVersion')
+    window.electron.ipcRenderer.getAppVersion().then((version) => {
+      setAppVersion(version);
+    });
   }, []);
   const openDevTools = React.useCallback(() => {
-    window.openDevTools();
+    window.electron.ipcRenderer.sendMessage('openDevTools');
   }, []);
 
   return (

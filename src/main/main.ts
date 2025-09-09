@@ -96,7 +96,7 @@ const createWindow = async () => {
       throw new Error('"mainWindow" is not defined');
     }
     mainWindow.setFullScreen(true);
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
     // mainWindow.setAlwaysOnTop(true, 'main-menu');
     if (process.env.START_MINIMIZED) {
       mainWindow.minimize();

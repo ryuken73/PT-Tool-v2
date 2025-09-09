@@ -398,7 +398,6 @@ export default function App() {
     setModalOpenState(true);
     // eslint-disable-next-line promise/catch-or-return
     // getIpAddresses()
-    console.log(window.electron.ipcRenderer.sendMessage)
     window.electron.ipcRenderer.getIpAddresses()
       .then((ipAddresses) => {
         // eslint-disable-next-line promise/always-return, @typescript-eslint/no-unused-expressions
