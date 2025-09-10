@@ -256,7 +256,7 @@ const AppContainer = styled(Container)`
   text-align: center;
   background-color: ${colors.base};
   flex-direction: row;
-  justify-content: flex-ends;
+  justify-content: flex-end;
   color: white;
   overflow: hidden;
 `;
