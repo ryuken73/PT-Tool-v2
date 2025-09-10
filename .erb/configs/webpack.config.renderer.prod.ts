@@ -99,6 +99,17 @@ const configuration: webpack.Configuration = {
           },
         },
       },
+       // Video
+      {
+        test: /\.(mp4|ogg|webm)$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: 'assets/media/[name].[ext]?[hash]',
+          },
+        },
+      },
     ],
   },
 
