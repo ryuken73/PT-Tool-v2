@@ -97,7 +97,7 @@ function ToolDocker(props) {
   const transition = TRANSITIONS[transitionType];
   const prevDataUrl = React.useMemo(() => {
     return dataUrls[currentAssetIndex] || RainDrop;
-  }, [currentAssetIndex]);
+  }, [currentAssetIndex, dataUrls]);
   // remove dataUrls from dependency to reduce re-render
 
   React.useEffect(() => {
