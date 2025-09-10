@@ -1,15 +1,10 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-underscore-dangle */
 import React, { useEffect, RefObject } from 'react';
 import Hls, { Config } from 'hls.js';
 
-function ReactHlsPlayer({
-  hlsConfig,
-  playerRef = React.createRef(),
-  src,
-  autoPlay,
-  ...props
-}) {
+function ReactHlsPlayer({ hlsConfig, src, autoPlay, onClick, ...props }, ref) {
   useEffect(() => {
     let hls;
 
@@ -23,8 +18,8 @@ function ReactHlsPlayer({
         ...hlsConfig,
       });
 
-      if (playerRef.current != null) {
-        newHls.attachMedia(playerRef.current);
+      if (ref.current != null) {
+        newHls.attachMedia(ref.current);
       }
 
       newHls.on(Hls.Events.MEDIA_ATTACHED, () => {
@@ -32,7 +27,7 @@ function ReactHlsPlayer({
 
         newHls.on(Hls.Events.MANIFEST_PARSED, () => {
           if (autoPlay) {
-            playerRef?.current
+            ref?.current
               ?.play()
               .catch(() =>
                 console.log(
@@ -72,15 +67,23 @@ function ReactHlsPlayer({
         hls.destroy();
       }
     };
-  }, [autoPlay, hlsConfig, playerRef, src]);
+  }, [autoPlay, hlsConfig, ref, src]);
 
   // If Media Source is supported, use HLS.js to play video
   // eslint-disable-next-line jsx-a11y/media-has-caption
-  if (Hls.isSupported()) return <video ref={playerRef} {...props} />;
+  if (Hls.isSupported()) return <video onClick={onClick} ref={ref} {...props} />;
 
   // Fallback to using a regular video player if HLS is supported by default in the user's browser
   // eslint-disable-next-line jsx-a11y/media-has-caption
-  return <video ref={playerRef} src={src} autoPlay={autoPlay} {...props} />;
+  return (
+    <video
+      ref={ref}
+      onClick={onClick}
+      src={src}
+      autoPlay={autoPlay}
+      {...props}
+    />
+  );
 }
 
-export default ReactHlsPlayer;
+export default React.memo(React.forwardRef(ReactHlsPlayer));

@@ -3,24 +3,33 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
+  position: relative;
   overflow: hidden;
   width: 100%;
   height: 100%;
-  aspect-ratio: 16/9;
-  position: relative;
   background-color: black;
+  aspect-ratio: 16/9;
 `;
 
 const CustomVideo = styled.video`
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: ${props => props.objectFit};
+  object-position: ${props => props.objectPosition};
+  transform: ${(props)=> `scale(${props.scale}) translateX(${props.translateX}%) translateY(${props.translateY}%)`};
 `;
 
 function MP4Player(props) {
   const {
     source = {},
-    setPlayer
+    onClick,
+    setPlayer,
+    aspectRatio,
+    objectFit = 'cover',
+    objectPosition = '50% 50%',
+    scale = 1,
+    translateX = 0,
+    translateY = 0,
   } = props;
 
   const playerRef = React.useRef(null);
@@ -76,6 +85,13 @@ function MP4Player(props) {
         width="100%"
         crossOrigin="anonymous"
         controls
+        aspectRatio={aspectRatio}
+        objectFit={objectFit}
+        objectPosition={objectPosition}
+        scale={scale}
+        translateX={translateX}
+        translateY={translateY}
+        onClick={onClick}
       />
     </Container>
   );

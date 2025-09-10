@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
@@ -7,13 +8,16 @@ const Conatiner = styled.div`
   position: relative;
   overflow: hidden;
   width: 100%;
+  height: 100%;
   background-color: black;
   aspect-ratio: 16/9;
 `;
 const CustomPlayer = styled(ReactHlsPlayer)`
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: ${props => props.objectFit};
+  object-position: ${props => props.objectPosition};
+  transform: ${(props)=> `scale(${props.scale}) translateX(${props.translateX}%) translateY(${props.translateY}%)`};
 `;
 
 const hlsConfig = {
@@ -34,36 +38,37 @@ const hlsConfig = {
   // maxBufferLength: 10 * 1000 * 1000,
 };
 
-function HLSJSPlayer(props) {
+function HLSJSPlayer(props, ref) {
   const {
     source,
+    onClick,
     setPlayer,
     lastLoaded,
     aspectRatio,
+    objectFit = 'cover',
+    objectPosition = '50% 50%',
+    scale = 1,
+    translateX = 0,
+    translateY = 0,
   } = props;
-  const playerRef = React.useRef(null);
   const { url } = source;
-
+  console.log('re-render player:', props, source, ref.current);
   const [reloadTrigger, setReloadTrigger] = React.useState(true);
-  // console.log('re-render player:', cctvIndex, source.title);
   const onLoadDataHandler = React.useCallback((event) => {
-    // console.log('^^^',event)
+    console.log('^^^',event)
     event.target.play();
   }, []);
 
   React.useLayoutEffect(() => {
     // setPlayer(cctvIndex, playerRef.current);
-    playerRef.current.addEventListener('loadedmetadata', onLoadDataHandler);
+    console.log('^^^', ref.current)
+    if(ref.current === null) return;
+    ref.current.addEventListener('loadedmetadata', onLoadDataHandler);
     return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      if (playerRef.current === null) return;
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      playerRef.current.removeEventListener(
-        'loadedmetadata',
-        onLoadDataHandler,
-      );
+      if (ref.current === null) return;
+      ref.current.removeEventListener('loadedmetadata', onLoadDataHandler);
     }
-  }, [onLoadDataHandler, setPlayer])
+  }, [onLoadDataHandler, ref, setPlayer]);
 
   React.useEffect(() => {
     // console.log('reload while get next player: ', lastLoaded, cctvIndex);
@@ -76,16 +81,22 @@ function HLSJSPlayer(props) {
   return (
     <Conatiner>
       <CustomPlayer
+        ref={ref}
         src={url}
         autoPlay={reloadTrigger}
-        playerRef={playerRef}
         hlsConfig={hlsConfig}
         muted
         width="100%"
         aspectRatio={aspectRatio}
+        objectFit={objectFit}
+        objectPosition={objectPosition}
+        scale={scale}
+        translateX={translateX}
+        translateY={translateY}
+        onClick={onClick}
       />
     </Conatiner>
   );
 };
 
-export default React.memo(HLSJSPlayer);
+export default React.memo(React.forwardRef(HLSJSPlayer));
