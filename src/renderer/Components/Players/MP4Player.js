@@ -19,7 +19,7 @@ const CustomVideo = styled.video`
   transform: ${(props)=> `scale(${props.scale}) translateX(${props.translateX}%) translateY(${props.translateY}%)`};
 `;
 
-function MP4Player(props) {
+function MP4Player(props, ref) {
   const {
     source = {},
     onClick,
@@ -32,37 +32,38 @@ function MP4Player(props) {
     translateY = 0,
   } = props;
 
-  const playerRef = React.useRef(null);
   const { url } = source;
 
   const [reloadTrigger, setReloadTrigger] = React.useState(true);
 
   const onLoadDataHandler = React.useCallback((event) => {
     // console.log(lastLoaded)
-    if (playerRef.current === null) {
+    if (ref.current === null) {
       return;
     }
-    // console.log('loadedMetadata mp4', playerRef.current.duration);
+    // console.log('loadedMetadata mp4', ref.current.duration);
     // eslint-disable-next-line no-restricted-globals
-    if (!isNaN(playerRef.current.duration)) {
-      playerRef.current.play();
+    if (!isNaN(ref.current.duration)) {
+      ref.current.play();
     }
-  }, []);
+    },
+    [ref],
+  );
 
   React.useLayoutEffect(() => {
-    if (playerRef.current === null) {
+    if (ref.current === null) {
       return;
     }
-    playerRef.current.addEventListener('loadedmetadata', onLoadDataHandler);
+    ref.current.addEventListener('loadedmetadata', onLoadDataHandler);
     // eslint-disable-next-line consistent-return
     return () => {
-      if (playerRef.current === null) return;
-      playerRef.current.removeEventListener(
+      if (ref.current === null) return;
+      ref.current.removeEventListener(
         'loadedmetadata',
         onLoadDataHandler,
       );
     };
-  }, [onLoadDataHandler, setPlayer]);
+  }, [onLoadDataHandler, ref, setPlayer]);
 
   React.useEffect(() => {
     // console.log('reload while get next player: ', lastLoaded, cctvIndex);
@@ -71,20 +72,20 @@ function MP4Player(props) {
     setReloadTrigger((reloadTrigger) => {
       return !reloadTrigger;
     });
-    // console.log(playerRef.current)
-    playerRef.current.load();
-  }, []);
+    // console.log(ref.current)
+    // eslint-disable-next-line react/destructuring-assignment
+    ref.current.load();
+  }, [ref]);
 
   return (
     <Container>
       <CustomVideo
+        ref={ref}
         src={url}
         autoPlay={reloadTrigger}
-        ref={playerRef}
         muted
         width="100%"
         crossOrigin="anonymous"
-        controls
         aspectRatio={aspectRatio}
         objectFit={objectFit}
         objectPosition={objectPosition}
@@ -97,4 +98,4 @@ function MP4Player(props) {
   );
 }
 
-export default React.memo(MP4Player);
+export default React.memo(React.forwardRef(MP4Player));
