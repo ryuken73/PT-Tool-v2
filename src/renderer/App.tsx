@@ -198,15 +198,15 @@ const INITIAL_ASSETS = [
     sources: [
       {
         srcId: 10,
-        srcLocal: 'D:/동영상강의/MAH00008.MP4',
-        srcRemote: 'D:/동영상강의/MAH00008.MP4',
+        srcLocal: 'D:/097.Private/사진/2011-핸폰사진/video-2011-10-02-12-10-08.mp4',
+        srcRemote: 'D:/097.Private/사진/2011-핸폰사진/video-2011-10-02-12-10-08.mp4',
         srcType: 'video',
         size: null,
       },
       {
         srcId: 11,
-        srcLocal: 'D:/동영상강의/MAH00007.MP4',
-        srcRemote: 'D:/동영상강의/MAH00007.MP4',
+        srcLocal: 'D:/097.Private/사진/2011-핸폰사진/video-2011-10-02-12-12-10.mp4',
+        srcRemote: 'D:/097.Private/사진/2011-핸폰사진/video-2011-10-02-12-12-10.mp4',
         srcType: 'video',
         size: null,
       },
