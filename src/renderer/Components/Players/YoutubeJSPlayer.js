@@ -2,7 +2,8 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
-import YouTubePlayer from 'react-player/youtube';
+import ReloadButton from 'renderer/Components/Common/ReloadButton';
+import YouTubePlayer from 'react-player';
 
 const PLAYER_STATUS = {
   normal: 'normal',
@@ -36,13 +37,7 @@ function YoutubePlayer(props, ref) {
   const { url } = source;
 
   React.useEffect(() => {
-    const durationSec = parseInt(ref.current.duration, 10);
-    const isLive = durationSec === 0;
-    if (!isLive && show && displayMode !== 'swipe') {
-      ref.current.currentTime = 0;
-      ref.current.play();
-    }
-    if (!isLive && !show){
+    if (!show){
       ref.current.pause();
       ref.current.currentTime = 0;
     }
@@ -63,24 +58,35 @@ function YoutubePlayer(props, ref) {
     ref.current.load();
   }, [ref]);
 
-
+  const setPlayerRef = React.useCallback((player) => {
+    if(!player) return;
+    ref.current = player;
+    },
+    [ref],
+  );
 
   return (
     <Container>
       <YouTubePlayer
-        url={url}
-        ref={ref}
-        playing
+        src={url}
+        ref={setPlayerRef}
         muted
-        width="100%"
+        // width="100%"
         height="100%"
         onReady={onLoadDataHandler}
         onClick={onClick}
+        style={{
+          width: '100%',
+          height: '100%',
+          aspectRatio: '16/9',
+          objectFit: 'fill'
+        }}
         // onPlay={setPlayerNormal}
         // onPause={setPlayerPaused}
         // onEnded={setPlayerPaused}
         // onError={setPlayerStalled}
       />
+      <ReloadButton reload={reloadPlayer} />
     </Container>
   );
 }
