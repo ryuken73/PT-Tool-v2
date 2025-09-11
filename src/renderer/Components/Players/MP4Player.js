@@ -38,19 +38,21 @@ function MP4Player(props, ref) {
 
   const { url } = source;
 
+  console.log('show', show, url)
   // const [reloadTrigger, setReloadTrigger] = React.useState(true);
-  React.useRef(() => {
+  React.useEffect(() => {
     const durationSec = parseInt(ref.current.duration, 10);
     const isLive = durationSec === 0;
     if (!isLive && show && displayMode !== 'swipe') {
       ref.current.currentTime = 0;
       ref.current.play();
     }
+    console.log('show', show, url, isLive);
     if (!isLive && !show){
       ref.current.pause();
       ref.current.currentTime = 0;
     }
-  }, []);
+  }, [show, displayMode, ref, url]);
 
   const onLoadDataHandler = React.useCallback((event) => {
     // console.log(lastLoaded)
@@ -78,7 +80,7 @@ function MP4Player(props, ref) {
     };
   }, [onLoadDataHandler, ref, setPlayer]);
 
-  const reloadPlayer = React.useCallback(() => { 
+  const reloadPlayer = React.useCallback(() => {
     ref.current.load();
   }, [ref]);
 

@@ -191,15 +191,17 @@ const INITIAL_ASSETS = [
     displayMode: 'overlaySplit',
   },
   {
-    assetId: 10, 
+    assetId: 10,
     assetTitle: 'Singe Clip',
     created: null,
     updated: null,
     sources: [
       {
         srcId: 12,
-        srcLocal: 'D:/OneDrive - SBS/private/관측_레이더눈비.mp4',
-        srcRemote: 'D:/OneDrive - SBS/private/관측_레이더눈비.mp4',
+        // srcLocal: 'D:/OneDrive - SBS/private/관측_레이더눈비.mp4',
+        // srcRemote: 'D:/OneDrive - SBS/private/관측_레이더눈비.mp4',
+        srcLocal: 'C:/temp/nuri.mp4',
+        srcRemote: 'C:/temp/nuri.mp4',
         srcType: 'video',
         size: null,
       }
