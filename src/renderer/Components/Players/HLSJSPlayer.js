@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
+import ReloadButton from 'renderer/Components/Common/ReloadButton';
 import ReactHlsPlayer from '../ReactHlsPlayer';
 
 const Conatiner = styled.div`
@@ -43,47 +44,55 @@ function HLSJSPlayer(props, ref) {
     source,
     onClick,
     setPlayer,
-    lastLoaded,
     aspectRatio,
     objectFit = 'cover',
     objectPosition = '50% 50%',
     scale = 1,
     translateX = 0,
     translateY = 0,
+    show,
+    displayMode
   } = props;
+
   const { url } = source;
-  console.log('re-render player:', props, source, ref.current);
-  const [reloadTrigger, setReloadTrigger] = React.useState(true);
+
+  React.useRef(() => {
+    const durationSec = parseInt(ref.current.duration, 10);
+    const isLive = durationSec === 0;
+    if (!isLive && show && displayMode !== 'swipe') {
+      ref.current.currentTime = 0;
+      ref.current.play();
+    }
+    if (!isLive && !show){
+      ref.current.pause();
+      ref.current.currentTime = 0;
+    }
+  }, []);
+
+  // console.log('re-render player:', props, source, ref.current);
   const onLoadDataHandler = React.useCallback((event) => {
-    console.log('^^^',event)
     event.target.play();
   }, []);
 
   React.useLayoutEffect(() => {
-    // setPlayer(cctvIndex, playerRef.current);
-    console.log('^^^', ref.current)
-    if(ref.current === null) return;
+    if (ref.current === null) return;
     ref.current.addEventListener('loadedmetadata', onLoadDataHandler);
+    // eslint-disable-next-line consistent-return
     return () => {
       if (ref.current === null) return;
       ref.current.removeEventListener('loadedmetadata', onLoadDataHandler);
     }
   }, [onLoadDataHandler, ref, setPlayer]);
 
-  React.useEffect(() => {
-    // console.log('reload while get next player: ', lastLoaded, cctvIndex);
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    setReloadTrigger((reloadTrigger) => {
-      return !reloadTrigger;
-    });
-  }, [lastLoaded]);
+  const reloadPlayer = React.useCallback(() => { 
+    ref.current.load();
+  }, [ref]);
 
   return (
     <Conatiner>
       <CustomPlayer
         ref={ref}
         src={url}
-        autoPlay={reloadTrigger}
         hlsConfig={hlsConfig}
         muted
         width="100%"
@@ -95,6 +104,7 @@ function HLSJSPlayer(props, ref) {
         translateY={translateY}
         onClick={onClick}
       />
+      <ReloadButton reload={reloadPlayer} />
     </Conatiner>
   );
 };

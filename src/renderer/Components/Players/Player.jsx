@@ -41,10 +41,29 @@ export default function AssetComponent(props) {
     displayMode,
     isSwipeActive,
   } = props;
+
   const isFirstImage = srcIndex === 0;
   const playerRef = React.useRef(null);
-  const reloadPlayer = React.useCallback(() => {
-  }, [])
+
+  React.useEffect(() => {
+    if (playerRef.current === null) return () => {};
+    if (isSwipeActive && displayMode === 'swipe' && show) {
+      // console.log('XXXX rewind clip and set play')
+      playerRef.current.currentTime = 0;
+      playerRef.current.play();
+    };
+    if (!isSwipeActive && displayMode === 'swipe' && show) {
+      // console.log('XXXX rewind clip and set play')
+      playerRef.current.currentTime = 0;
+      playerRef.current.pause();
+    };
+    if (!autoplay){
+      // console.log('XXXX rewind clip and set pause')
+      playerRef.current.currentTime = 0;
+      playerRef.current.pause();
+    }
+    // console.log('XXXX done')
+  }, [isSwipeActive, playerRef, displayMode, show, autoplay]);
 
   const onClick = React.useCallback(() => {
     if (displayMode === 'brush') return;
@@ -89,7 +108,6 @@ export default function AssetComponent(props) {
         setPlayer={()=>{}} 
         {...props} 
       />
-      <ReloadButton reload={reloadPlayer} />
       <PlayIndicator isPlaying={isPlaying} />
     </Container>
   )

@@ -191,6 +191,25 @@ const INITIAL_ASSETS = [
     displayMode: 'overlaySplit',
   },
   {
+    assetId: 10, 
+    assetTitle: 'Singe Clip',
+    created: null,
+    updated: null,
+    sources: [
+      {
+        srcId: 12,
+        srcLocal: 'D:/OneDrive - SBS/private/관측_레이더눈비.mp4',
+        srcRemote: 'D:/OneDrive - SBS/private/관측_레이더눈비.mp4',
+        srcType: 'video',
+        size: null,
+      }
+    ],
+    fill: true,
+    fluid: false,
+    aspectRatio: '',
+    enableOverlay: false,
+  },
+  {
     assetId: 7,
     assetTitle: '로컬영상',
     created: null,

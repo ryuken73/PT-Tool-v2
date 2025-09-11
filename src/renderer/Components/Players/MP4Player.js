@@ -1,6 +1,8 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
+import ReloadButton from 'renderer/Components/Common/ReloadButton';
 
 const Container = styled.div`
   position: relative;
@@ -30,22 +32,36 @@ function MP4Player(props, ref) {
     scale = 1,
     translateX = 0,
     translateY = 0,
+    show,
+    displayMode
   } = props;
 
   const { url } = source;
 
-  const [reloadTrigger, setReloadTrigger] = React.useState(true);
+  // const [reloadTrigger, setReloadTrigger] = React.useState(true);
+  React.useRef(() => {
+    const durationSec = parseInt(ref.current.duration, 10);
+    const isLive = durationSec === 0;
+    if (!isLive && show && displayMode !== 'swipe') {
+      ref.current.currentTime = 0;
+      ref.current.play();
+    }
+    if (!isLive && !show){
+      ref.current.pause();
+      ref.current.currentTime = 0;
+    }
+  }, []);
 
   const onLoadDataHandler = React.useCallback((event) => {
     // console.log(lastLoaded)
-    if (ref.current === null) {
-      return;
-    }
-    // console.log('loadedMetadata mp4', ref.current.duration);
-    // eslint-disable-next-line no-restricted-globals
-    if (!isNaN(ref.current.duration)) {
-      ref.current.play();
-    }
+      if (ref.current === null) {
+        return;
+      }
+      // console.log('loadedMetadata mp4', ref.current.duration);
+      // eslint-disable-next-line no-restricted-globals
+      if (!isNaN(ref.current.duration)) {
+        ref.current.play();
+      }
     },
     [ref],
   );
@@ -58,22 +74,11 @@ function MP4Player(props, ref) {
     // eslint-disable-next-line consistent-return
     return () => {
       if (ref.current === null) return;
-      ref.current.removeEventListener(
-        'loadedmetadata',
-        onLoadDataHandler,
-      );
+      ref.current.removeEventListener( 'loadedmetadata', onLoadDataHandler);
     };
   }, [onLoadDataHandler, ref, setPlayer]);
 
-  React.useEffect(() => {
-    // console.log('reload while get next player: ', lastLoaded, cctvIndex);
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    // console.log('reload mp4 player', lastLoaded)
-    setReloadTrigger((reloadTrigger) => {
-      return !reloadTrigger;
-    });
-    // console.log(ref.current)
-    // eslint-disable-next-line react/destructuring-assignment
+  const reloadPlayer = React.useCallback(() => { 
     ref.current.load();
   }, [ref]);
 
@@ -82,7 +87,6 @@ function MP4Player(props, ref) {
       <CustomVideo
         ref={ref}
         src={url}
-        autoPlay={reloadTrigger}
         muted
         width="100%"
         crossOrigin="anonymous"
@@ -94,6 +98,7 @@ function MP4Player(props, ref) {
         translateY={translateY}
         onClick={onClick}
       />
+      <ReloadButton reload={reloadPlayer} />
     </Container>
   );
 }
