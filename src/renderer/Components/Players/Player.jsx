@@ -44,6 +44,24 @@ export default function AssetComponent(props) {
 
   const isFirstImage = srcIndex === 0;
   const playerRef = React.useRef(null);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+
+  const handlePlaying = React.useCallback(() => {
+    setIsPlaying(true);
+  }, []);
+  const handlePause = React.useCallback(() => {
+    setIsPlaying(false);
+  }, []);
+
+  React.useEffect(() => {
+    if (playerRef.current === null) return () => {};
+    playerRef.current.addEventListener('playing', handlePlaying);
+    playerRef.current.addEventListener('pause', handlePause);
+    return () => {
+      playerRef.current.removeEventListener('playing', handlePlaying);
+      playerRef.current.removeEventListener('pause', handlePause);
+    }
+  }, [handlePause, handlePlaying, playerRef]);
 
   React.useEffect(() => {
     if (playerRef.current === null) return () => {};
@@ -74,7 +92,7 @@ export default function AssetComponent(props) {
     }
   }, [displayMode]);
 
-  const isPlaying = true;
+  // const isPlaying = true;
   const source = {
     url: src,
   };
