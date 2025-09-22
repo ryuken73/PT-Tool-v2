@@ -78,7 +78,7 @@ const createWindow = async () => {
     width: 1024,
     height: 728,
     frame: false,
-    icon: getAssetPath('icon.png'),
+    icon: getAssetPath('icon.jpg'),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: true,
@@ -97,7 +97,9 @@ const createWindow = async () => {
       throw new Error('"mainWindow" is not defined');
     }
     mainWindow.setFullScreen(true);
-    // mainWindow.webContents.openDevTools();
+    if(isDebug){
+      mainWindow.webContents.openDevTools();
+    }
     // mainWindow.setAlwaysOnTop(true, 'main-menu');
     if (process.env.START_MINIMIZED) {
       mainWindow.minimize();

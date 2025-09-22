@@ -22,9 +22,10 @@ const Container = styled.div`
 
 export default function AssetTitle() {
   const { currentAssetTitle } = useAssetState();
+  const nodeRef = React.useRef(null);
   return (
-    <Draggable>
-      <Container>{currentAssetTitle}</Container>
+    <Draggable nodeRef={nodeRef}>
+      <Container ref={nodeRef}>{currentAssetTitle}</Container>
     </Draggable>
   )
 }

@@ -187,6 +187,8 @@ const ToolContainer = (props) => {
     withArrow
   } = currentOptions;
 
+  const nodeRef = React.useRef(null);
+
   const prevStrokeWidth = usePrevious(strokeWidth);
 
   const getNextSizeByOffset = React.useCallback((currentSize) => {
@@ -271,8 +273,8 @@ const ToolContainer = (props) => {
   const timeout = 200;
 
   return (
-    <Draggable bounds="#root" handle="strong" onStart={onStartDrag} onStop={onStopDrag}>
-    <ToolDivWithPosition isDragging={isDragging}>
+    <Draggable nodeRef={nodeRef} bounds="#root" handle="strong" onStart={onStartDrag} onStop={onStopDrag}>
+    <ToolDivWithPosition ref={nodeRef} isDragging={isDragging}>
     <Container>
       <FlexContainer>
       <IconContainerOne>
