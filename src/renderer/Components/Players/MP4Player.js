@@ -41,6 +41,7 @@ function MP4Player(props, ref) {
   console.log('show', show, url)
   // const [reloadTrigger, setReloadTrigger] = React.useState(true);
   React.useEffect(() => {
+    if (ref.current === null) return;
     const durationSec = parseInt(ref.current.duration, 10);
     const isLive = durationSec === 0;
     if (!isLive && show && displayMode !== 'swipe') {
@@ -81,6 +82,7 @@ function MP4Player(props, ref) {
   }, [onLoadDataHandler, ref, setPlayer]);
 
   const reloadPlayer = React.useCallback(() => {
+    if (ref.current === null) return;
     ref.current.load();
   }, [ref]);
 

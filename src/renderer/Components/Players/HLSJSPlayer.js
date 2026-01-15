@@ -57,6 +57,7 @@ function HLSJSPlayer(props, ref) {
   const { url } = source;
 
   React.useEffect(() => {
+    if (ref.current === null) return;
     const durationSec = parseInt(ref.current.duration, 10);
     const isLive = durationSec === 0;
     if (!isLive && show && displayMode !== 'swipe') {
@@ -85,6 +86,7 @@ function HLSJSPlayer(props, ref) {
   }, [onLoadDataHandler, ref, setPlayer]);
 
   const reloadPlayer = React.useCallback(() => {
+    if (ref.current === null) return;
     ref.current.load();
   }, [ref]);
 

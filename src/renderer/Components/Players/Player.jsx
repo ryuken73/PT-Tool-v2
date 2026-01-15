@@ -58,6 +58,7 @@ export default function AssetComponent(props) {
     playerRef.current.addEventListener('playing', handlePlaying);
     playerRef.current.addEventListener('pause', handlePause);
     return () => {
+      if (playerRef.current === null) return;
       playerRef.current.removeEventListener('playing', handlePlaying);
       playerRef.current.removeEventListener('pause', handlePause);
     }
@@ -85,6 +86,7 @@ export default function AssetComponent(props) {
 
   const onClick = React.useCallback(() => {
     if (displayMode === 'brush') return;
+    if (playerRef.current === null) return;
     if (playerRef.current.paused) {
       playerRef.current.play();
     } else {

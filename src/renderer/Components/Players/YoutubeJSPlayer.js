@@ -37,6 +37,7 @@ function YoutubePlayer(props, ref) {
   const { url } = source;
 
   React.useEffect(() => {
+    if (ref.current === null) return;
     if (!show){
       ref.current.pause();
       ref.current.currentTime = 0;
@@ -55,6 +56,7 @@ function YoutubePlayer(props, ref) {
   }, [ref]);
 
   const reloadPlayer = React.useCallback(() => {
+    if (ref.current === null) return;
     ref.current.load();
   }, [ref]);
 
